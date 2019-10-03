@@ -1,0 +1,28 @@
+apiVersion: rhte.demojam.battlefield/v1alpha1
+kind: Battlefield
+metadata:
+  Name: defaultName
+spec:
+  duration: 900
+  hitFrequency: 2
+  players:
+  - name: player0
+    image: quay.io/bszeti/fuse-player:latest
+    maxhealth: 20
+    shield: false
+    disqualified: false
+  - name: player1
+    image: quay.io/picochange/battlefield-player-quarkus-jvm:latest
+    maxhealth: 20
+    shield: false
+    disqualified: false
+  - name: player2
+    image: quay.io/picochange/battlefield-player-quarkus-native:latest
+    maxhealth: 20
+    shield: false
+    disqualified: false
+  - name: player3
+    image: quay.io/bszeti/fuse-player:latest
+    maxhealth: 20
+    shield: false
+    disqualified: false

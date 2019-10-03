@@ -10,6 +10,7 @@ require (
 	golang.org/x/crypto v0.0.0-20191002192127-34f69633bfdc // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect
 	golang.org/x/time v0.0.0-20190921001708-c4c64cad1fd0 // indirect
+	gopkg.in/yaml.v2 v2.2.2
 	k8s.io/api v0.0.0-20190927115716-5d581ce610b0 // indirect
 	k8s.io/apimachinery v0.0.0-20190927035529-0104e33c351d
 	k8s.io/kube-openapi v0.0.0-20190816220812-743ec37842bf

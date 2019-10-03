@@ -20,8 +20,10 @@ import (
 	"k8s.io/client-go/rest"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	// metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	// yaml "gopkg.in/yaml.v2"
 
 	"github.com/bszeti/battlefield-ui/pkg/apis/rhte/v1alpha1"
+	"github.com/bszeti/battlefield-ui/pkg/services"
 
 	
 )
@@ -60,7 +62,12 @@ func GetBattlefield(w http.ResponseWriter, r *http.Request) {
 func StartBattlefield(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["name"]
-	json.NewEncoder(w).Encode("StartBattlefield: " + name)
+
+	battlefield := services.StartBattlefield(name,namespace,"health",client)
+	fmt.Fprintf(w, string(battlefield))
+	
+
+	//json.NewEncoder(w).Encode("StartBattlefield: " + name)
 }
 
 //StartNonameBattlefield is
@@ -135,8 +142,8 @@ func main() {
 	router.HandleFunc("/api/battlefield/{name}", GetBattlefield).Methods("GET")
 	router.HandleFunc("/api/start/{name}", StartBattlefield).Methods("GET")
 	router.HandleFunc("/api/start", StartNonameBattlefield).Methods("GET")
-	router.HandleFunc("/api/{player}/shield/{status}", ShieldHandler).Methods("GET")
-	router.HandleFunc("/api/{player}/disqualify/{status}", DisqualifyHandler).Methods("GET")
+	router.HandleFunc("/api/battlefield/{name}/{player}/shield/{status}", ShieldHandler).Methods("GET")
+	router.HandleFunc("/api/battlefield/{name}/{player}/disqualify/{status}", DisqualifyHandler).Methods("GET")
 
 
 	//Serve static filed at root from "static" directory
