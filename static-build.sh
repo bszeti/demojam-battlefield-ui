@@ -1,4 +1,14 @@
-rm -rf /static/*
+rm -rf ./static
 
-#Do the yarn build and copy all files from /app/build/ to /static/
-# How
+#yarn build from react dir
+cd react
+# yarn 
+yarn build
+
+#move app to backend directory
+mv build ../static
+
+cd ..
+
+
+

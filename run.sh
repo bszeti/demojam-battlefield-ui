@@ -1,3 +1,3 @@
-export NAMESPACE=bszeti
+export NAMESPACE=visual
 go build && \
-./battlefield-ui --kubeconfig=/Users/bszeti/.kube/config
+./battlefield-ui 
