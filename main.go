@@ -87,7 +87,7 @@ func DisqualifyHandler(w http.ResponseWriter, r *http.Request) {
 var client *rest.RESTClient
 
 func main() {
-	fmt.Println("Monitoring namespace: %s",namespace)
+	fmt.Println("Monitoring namespace:",namespace)
 	if namespace=="" {
 		panic("NAMESPACE env var is required.")
 	}
@@ -139,10 +139,16 @@ func main() {
 	router.HandleFunc("/api/{player}/disqualify/{status}", DisqualifyHandler).Methods("GET")
 
 
-	staticDir := "/static/"
-	router.
-		PathPrefix(staticDir).
-		Handler(http.StripPrefix(staticDir, http.FileServer(http.Dir("."+staticDir))))
+	//Serve static filed at root from "static" directory
+	fs := http.FileServer(http.Dir("./static/"))
+	router.PathPrefix("/").Handler(fs)
+
+	// router.Handle("/", fs)
+
+	// staticDir := "/static/"
+	// router.
+	// 	PathPrefix(staticDir).
+	// 	Handler(http.StripPrefix(staticDir, http.FileServer(http.Dir("."+staticDir))))
 
 	err = http.ListenAndServe(":8080", router)
 	if err != nil {
