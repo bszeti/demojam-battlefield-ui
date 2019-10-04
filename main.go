@@ -38,41 +38,70 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 func GetBattlefield(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["name"]
-
 	log.Printf("GetBattlefield request: %s",name)
 
-	battlefield := v1alpha1.Battlefield{}
-	err := client.Get().
-		Namespace(namespace).
-		Resource("battlefields").
-		Name(name).
-		Do().
-		Into(&battlefield)
-	if err != nil {
-		panic(err)
+	battlefield, err :=  services.GetBattlefield(name,namespace,client)
+	if err!=nil {
+		w.WriteHeader(http.StatusNotFound)
+	} else {
+		json.NewEncoder(w).Encode(battlefield) 
 	}
-
-	s,err:=json.Marshal(battlefield)
-	log.Printf("GetBattlefield: %s",string(s))
-
-	json.NewEncoder(w).Encode(battlefield)
 }
 
 //StartBattlefield is
 func StartBattlefield(w http.ResponseWriter, r *http.Request) {
+	name := "demofield"
+	_, err :=  services.StartBattlefield(name,namespace,"default",client)
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		// w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(name)
+	}
+}
+
+//StartBattlefieldWithName is
+func StartBattlefieldWithName(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["name"]
 
-	battlefield := services.StartBattlefield(name,namespace,"health",client)
-	fmt.Fprintf(w, string(battlefield))
-	
 
-	//json.NewEncoder(w).Encode("StartBattlefield: " + name)
+	_, err := services.StartBattlefield(name,namespace,"default",client)
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		// w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(name)
+	}
 }
 
-//StartNonameBattlefield is
-func StartNonameBattlefield(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("StartNonameBattlefield")
+//StartBattlefieldWithNameAndType is
+func StartBattlefieldWithNameAndType(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	name := vars["name"]
+	yamlname := vars["type"]
+
+	_, err := services.StartBattlefield(name,namespace,yamlname,client)
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		// w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(name)
+	}
+}
+
+//DeleteBattlefieldWithName is
+func DeleteBattlefieldWithName(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	name := vars["name"]
+
+	log.Printf("DeleteBattlefieldWithName request: %s",name)
+	err := services.DeleteBattlefield(name,namespace,client)
+
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	
 }
 
 //ShieldHandler is
@@ -140,8 +169,10 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/health", healthHandler)
 	router.HandleFunc("/api/battlefield/{name}", GetBattlefield).Methods("GET")
-	router.HandleFunc("/api/start/{name}", StartBattlefield).Methods("GET")
-	router.HandleFunc("/api/start", StartNonameBattlefield).Methods("GET")
+	router.HandleFunc("/api/battlefield/{name}", DeleteBattlefieldWithName).Methods("DELETE")
+	router.HandleFunc("/api/start/{name}/{type}", StartBattlefieldWithNameAndType).Methods("GET")
+	router.HandleFunc("/api/start/{name}", StartBattlefieldWithNameAndType).Methods("GET") //default-type
+	router.HandleFunc("/api/start", StartBattlefield).Methods("GET") //demofield - default type
 	router.HandleFunc("/api/battlefield/{name}/{player}/shield/{status}", ShieldHandler).Methods("GET")
 	router.HandleFunc("/api/battlefield/{name}/{player}/disqualify/{status}", DisqualifyHandler).Methods("GET")
 

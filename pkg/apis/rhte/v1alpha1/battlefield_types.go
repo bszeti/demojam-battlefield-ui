@@ -12,7 +12,7 @@ import (
 type BattlefieldSpec struct {
 	Duration     int      `json:"duration"`
 	Players      []Player `json:"players"`
-	HitFrequency int      `json:"hitFrequency"`
+	HitFrequency int      `json:"hitFrequency" yaml:"hitFrequency"`
 
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file

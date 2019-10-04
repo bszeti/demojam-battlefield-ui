@@ -3,7 +3,7 @@ kind: Battlefield
 metadata:
   Name: defaultName
 spec:
-  duration: 900
+  duration: 180
   hitFrequency: 2
   players:
   - name: player0

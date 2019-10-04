@@ -3,7 +3,7 @@ kind: Battlefield
 metadata:
   Name: defaultName
 spec:
-  duration: 900
+  duration: 300
   hitFrequency: 2
   players:
   - name: player0
@@ -12,12 +12,12 @@ spec:
     shield: false
     disqualified: false
   - name: player1
-    image: quay.io/bszeti/battlefield-player-fuse:latest
+    image: quay.io/picochange/battlefield-player-quarkus-jvm:latest
     maxhealth: 20
     shield: false
     disqualified: false
   - name: player2
-    image: quay.io/bszeti/battlefield-player-fuse:latest
+    image: quay.io/picochange/battlefield-player-quarkus-native:latest
     maxhealth: 20
     shield: false
     disqualified: false
