@@ -171,7 +171,7 @@ func main() {
 	router.HandleFunc("/api/battlefield/{name}", GetBattlefield).Methods("GET")
 	router.HandleFunc("/api/battlefield/{name}", DeleteBattlefieldWithName).Methods("DELETE")
 	router.HandleFunc("/api/start/{name}/{type}", StartBattlefieldWithNameAndType).Methods("GET")
-	router.HandleFunc("/api/start/{name}", StartBattlefieldWithNameAndType).Methods("GET") //default-type
+	router.HandleFunc("/api/start/{name}", StartBattlefieldWithName).Methods("GET") //default-type
 	router.HandleFunc("/api/start", StartBattlefield).Methods("GET") //demofield - default type
 	router.HandleFunc("/api/battlefield/{name}/{player}/shield/{status}", ShieldHandler).Methods("GET")
 	router.HandleFunc("/api/battlefield/{name}/{player}/disqualify/{status}", DisqualifyHandler).Methods("GET")

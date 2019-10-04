@@ -69,6 +69,7 @@ func StartBattlefield( battlefieldname string, namespace string, yamlname string
 	//Read from yaml file
 	dat, err := ioutil.ReadFile("resource/" + yamlname + ".yaml")
 	if err != nil {
+		log.Println("Failed to read file", err)
         return nil, err
     }
 
