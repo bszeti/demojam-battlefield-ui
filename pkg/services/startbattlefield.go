@@ -8,6 +8,7 @@ import (
 	// "os"
 	// "path/filepath"
 	// "strings"
+	"errors"
 
 	// "k8s.io/client-go/tools/clientcmd"
 	//clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
@@ -110,3 +111,76 @@ func DeleteBattlefield( battlefieldname string, namespace string, client *rest.R
 
 	return err
 }
+
+//DisqualifyPlayer sets disqualify for player 
+func DisqualifyPlayer( battlefieldname string, namespace string, playerName string, status bool, client *rest.RESTClient) (error) {
+	log.Println("DisqualifyPlayer is called")
+
+	battlefield,err := GetBattlefield(battlefieldname, namespace, client)
+	if err != nil {
+		log.Println("Failed to get Battlefield.",err)
+		return err
+	}
+
+	foundPlayer := false
+	for index, player := range battlefield.Spec.Players {
+		if playerName == player.Name {
+			battlefield.Spec.Players[index].Disqualified = status
+			foundPlayer = true
+		}
+	}
+	if !foundPlayer {
+		return errors.New("Player not found")
+	}
+
+	err = client.Put().
+		Namespace(namespace).
+		Resource("battlefields").
+		Name(battlefieldname).
+		Body(battlefield).
+		Do().
+		Error()
+
+	if err != nil {
+		log.Println("Failed to update Battlefield.",err)
+		return err
+	}
+	return nil
+}
+
+//ShieldPlayer sets shield for player 
+func ShieldPlayer( battlefieldname string, namespace string, playerName string, status bool, client *rest.RESTClient) (error) {
+	log.Println("ShieldPlayer is called")
+
+	battlefield,err := GetBattlefield(battlefieldname, namespace, client)
+	if err != nil {
+		log.Println("Failed to get Battlefield.",err)
+		return err
+	}
+
+	foundPlayer := false
+	for index, player := range battlefield.Spec.Players {
+		if playerName == player.Name {
+			battlefield.Spec.Players[index].Shield = status
+			foundPlayer = true
+		}
+	}
+	if !foundPlayer {
+		return errors.New("Player not found")
+	}
+
+	err = client.Put().
+		Namespace(namespace).
+		Resource("battlefields").
+		Name(battlefieldname).
+		Body(battlefield).
+		Do().
+		Error()
+
+	if err != nil {
+		log.Println("Failed to update Battlefield.",err)
+		return err
+	}
+	return nil
+}
+

@@ -51,6 +51,7 @@ type Player struct {
 	MaxHealth int    `json:"maxhealth"`
 	Shield 	  bool   `json:"shield"`
 	Disqualified 	  bool   `json:"disqualified"`
+	Type      string `json:"type"`
 }
 
 // PlayerStatus records score of a player

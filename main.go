@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	// "strings"
 
 	"k8s.io/client-go/tools/clientcmd"
@@ -107,18 +108,45 @@ func DeleteBattlefieldWithName(w http.ResponseWriter, r *http.Request) {
 //ShieldHandler is
 func ShieldHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	name := vars["name"]
 	player := vars["player"]
-	status := vars["status"]
-	json.NewEncoder(w).Encode("ShieldHandler: " + player + " " + status)
+
+	status, err := strconv.ParseBool(vars["status"])
+	if err != nil {
+		log.Println("Wrong status",status)
+	} else {
+		log.Printf("ShieldHandler request: %s",name)
+		err = services.ShieldPlayer(name,namespace,player,status,client)
+	}
+
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	json.NewEncoder(w).Encode(status)
 }
 
 //DisqualifyHandler is
 func DisqualifyHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	name := vars["name"]
 	player := vars["player"]
-	status := vars["status"]
-	json.NewEncoder(w).Encode("DisqualifyHandler: " + player + " " + status)
+	status, err := strconv.ParseBool(vars["status"])
+	if err != nil {
+		log.Println("Wrong status",status)
+	} else {
+		log.Printf("DisqualifyHandler request: %s",name)
+		err = services.DisqualifyPlayer(name,namespace,player,status,client)
+	}
+
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	json.NewEncoder(w).Encode(status)
 }
+
+
 
 var client *rest.RESTClient
 
@@ -174,7 +202,7 @@ func main() {
 	router.HandleFunc("/api/start/{name}", StartBattlefieldWithName).Methods("GET") //default-type
 	router.HandleFunc("/api/start", StartBattlefield).Methods("GET") //demofield - default type
 	router.HandleFunc("/api/battlefield/{name}/{player}/shield/{status}", ShieldHandler).Methods("GET")
-	router.HandleFunc("/api/battlefield/{name}/{player}/disqualify/{status}", DisqualifyHandler).Methods("GET")
+	router.HandleFunc("/api/battlefield/{name}/{player}/disqualified/{status}", DisqualifyHandler).Methods("GET")
 
 
 	//Serve static filed at root from "static" directory
