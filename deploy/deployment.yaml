@@ -19,6 +19,6 @@ spec:
         image: quay.io/bszeti/battlefield-ui
         env:
         - name: NAMESPACE
-          value: visual
+          value: bszeti
         ports:
         - containerPort: 8080

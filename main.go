@@ -121,9 +121,10 @@ func ShieldHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err!=nil {
 		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		json.NewEncoder(w).Encode(status)
 	}
 
-	json.NewEncoder(w).Encode(status)
 }
 
 //DisqualifyHandler is
@@ -141,9 +142,9 @@ func DisqualifyHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err!=nil {
 		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		json.NewEncoder(w).Encode(status)
 	}
-
-	json.NewEncoder(w).Encode(status)
 }
 
 
