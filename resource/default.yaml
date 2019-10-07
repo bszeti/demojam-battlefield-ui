@@ -1,28 +1,32 @@
 apiVersion: rhte.demojam.battlefield/v1alpha1
 kind: Battlefield
 metadata:
-  Name: defaultName
+  name: demofield
 spec:
-  duration: 180
-  hitFrequency: 2
+  duration: 480
+  hitFrequency: 1
   players:
-  - name: player0
+  - name: GoodOldFuse
     image: quay.io/bszeti/battlefield-player-fuse:latest
-    maxhealth: 20
+    maxhealth: 5
     shield: false
     disqualified: false
-  - name: player1
-    image: quay.io/bszeti/battlefield-player-fuse:latest
-    maxhealth: 20
+    type: java
+  - name: FunnyBoy
+    image: quay.io/picochange/battlefield-player-quarkus-jvm:latest
+    maxhealth: 5
     shield: false
     disqualified: false
-  - name: player2
-    image: quay.io/bszeti/battlefield-player-fuse:latest
-    maxhealth: 20
+    type: cheater
+  - name: SupersonicQuarkus
+    image: quay.io/picochange/battlefield-player-quarkus-native:latest
+    maxhealth: 5
     shield: false
     disqualified: false
-  - name: player3
-    image: quay.io/bszeti/battlefield-player-fuse:latest
-    maxhealth: 20
+    type: quarkus
+  - name: GoGoGo
+    image: quay.io/bszeti/battlefield-player-golang:latest
+    maxhealth: 5
     shield: false
     disqualified: false
+    type: go
