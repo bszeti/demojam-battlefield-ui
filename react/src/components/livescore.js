@@ -6,23 +6,30 @@ import {
 import Countdown from 'react-countdown-now';
 
 import Player from './player';
-
+import BASE_URL from '../constant';
 import React, { useEffect, useState, useRef } from 'react';
 
 const _ = require('lodash');
 
-function LiveScore() {
+function LiveScore(props) {
     const [playersData, setPlayersData] = useState({});
     const isGameOver = useRef(false);
 
     const timerToClearSomewhere = useRef(false)
+    console.log(props);
+    const audioPlayer = useRef(false);
 
-    const audioPlayer = useRef(false)
+    let baseUrl;
+    if (
+        typeof(props.match) === 'undefined' || 
+        typeof(props.match.params) === 'undefined' ||
+        typeof(props.match.params.game) === 'undefined'
+        ) {
+        props.history.push('/');
+    } else {
+        baseUrl = `${BASE_URL}/battlefield/${props.match.params.game}`;
+    }
 
-    // const baseUrl = 'https://api.te2019.aws.redhat-demo.com:6443/apis/rhte.demojam.battlefield/v1alpha1/namespaces/visual/battlefields/'
-    // const baseUrl = 'https://5d916e4c741bd4001411625c.mockapi.io/players/1';
-    // const baseUrl = 'https://api.te2019.aws.redhat-demo.com:6443/apis/rhte.demojam.battlefield/v1alpha1/namespaces/visual/battlefields/demofield';
-    const baseUrl = 'api/battlefield/demofield';
 
     function getData() {
         // fetch(baseUrl, {
@@ -64,15 +71,13 @@ function LiveScore() {
     
 
     useEffect(() => {
-        getData();
+        // getData();
         timerToClearSomewhere.current = setInterval(() => {
             fetch(baseUrl, {
-                method: 'GET'
-                //, headers: new Headers({
-                //     'Authorization': 'Bearer mbLDcSbkR0uQE0Ic6QZkkVtnuuHiAgilV9SXATr6yGw'
-                // }
-                // )
+                method: 'GET',
+                headers: new Headers({'content-type': 'application/json'})
             }).then(async (fetchedData) => {
+                console.log(fetchedData);
                 const dataAsJson = await fetchedData.json();
                 var merged = _.merge(_.keyBy(dataAsJson['spec']['players'], 'name'), _.keyBy(dataAsJson['status']['scores'], 'name'));
                 if (dataAsJson['status']['phase'] === 'done') {
@@ -111,23 +116,22 @@ function LiveScore() {
                     // audioPlayer.current = 
                 }
                 setPlayersData({'rawData': dataAsJson, 'data': _.values(merged)});
-                
             });
-        }, 1500);
+        }, 1500); // 1.5 second polling
         if (isGameOver.current) {
             clearTimeout(timerToClearSomewhere.current);
         }
         return () => {
             clearTimeout(timerToClearSomewhere.current);
         };
-    }, [playersData]);
+    }, [playersData, baseUrl]);
 
     return (
         <div className="main-panel">
             <div className="content">
                 <Row>
                     {playersData.data && playersData['data'].map((player, key) => {
-                        return <Player key={key} details = {player}></Player>
+                        return <Player key={key} game = {playersData.rawData.metadata.name} details = {player}></Player>
                     })}
                 </Row>
                 {playersData['rawData'] && playersData['rawData']['spec'] &&

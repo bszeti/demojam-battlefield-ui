@@ -57,6 +57,12 @@
   margin-top: 0;
 }
 
+.bg-green{
+  background: #5eb930;
+  width:38px;
+  height: 38px;
+}
+
 .offline-doc .page-header {
   display: flex;
   align-items: center;
