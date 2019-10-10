@@ -30,33 +30,36 @@ function LiveScore(props) {
         baseUrl = `${BASE_URL}/battlefield/${props.match.params.game}`;
     }
 
-
-    function getData() {
-        // fetch(baseUrl, {
-        //     method: 'GET',
-        //     headers: new Headers({
-        //         'Authorization': 'Bearer mbLDcSbkR0uQE0Ic6QZkkVtnuuHiAgilV9SXATr6yGw'
-        //     })
-        // }).then(async (fetchedData) => {
-        //     const dataAsJson = await fetchedData.json();
-        //     var merged = _.merge(_.keyBy(dataAsJson['spec']['players'], 'name'), _.keyBy(dataAsJson['status']['scores'], 'name'));
-        //     if (dataAsJson['status']['phase'] === 'done') {
-        //         isGameOver.current = true;
-        //     }
-        //     if (
-        //         !_.isEmpty(playersData) &&
-        //         JSON.stringify(dataAsJson['status']) !== JSON.stringify(playersData['rawData']['status']) &&
-        //         JSON.stringify(dataAsJson['spec']) !== JSON.stringify(playersData['rawData']['spec'])
-        //     ) {
-        //         document.getElementById('soundBar').play();
-        //         setPlayersData({'rawData': dataAsJson, 'data': _.values(merged)});
-        //     }
-            
-        // });
+    function getWinner() {
+        let playerWinner = _.maxBy(playersData.data, function(o) { return o.kill; })
+        return playerWinner['name'];
     }
 
+    function getWinner() {
+        let playerWinner = _.maxBy(playersData.data, function(o) { return o.kill; })
+        return playerWinner['name'];
+    }
+
+
     // Random component
-    const Completionist = () => <span>Game Over !!!!!!</span>;
+    const Completionist = () => {
+        return (
+            <div className="grid-container">
+                <div className="grid-item">
+                    <img
+                        title={'Kills'}
+                        alt="..."
+                        src={require("../assets/img/giphy.gif")}
+                    />
+                </div>
+                <div className="grid-item winner-css">
+                    <span style={{fontSize: '40px'}}>Winner is {getWinner()}</span>
+                    <br></br>
+                    <span className="App-link" onClick={() => props.history.push({pathname: '/'})}>Reset</span>
+                </div> 
+            </div>
+        )
+    };
 
     // Renderer callback with condition
     const renderer = ({ hours, minutes, seconds, completed }) => {
@@ -71,7 +74,6 @@ function LiveScore(props) {
     
 
     useEffect(() => {
-        // getData();
         timerToClearSomewhere.current = setInterval(() => {
             fetch(baseUrl, {
                 method: 'GET',
@@ -135,9 +137,9 @@ function LiveScore(props) {
                     })}
                 </Row>
                 {playersData['rawData'] && playersData['rawData']['spec'] &&
-                    <p className="blockquote blockquote-primary countdown-timer">
+                    <div className="blockquote blockquote-primary countdown-timer">
                         <Countdown renderer={renderer} date={new Date(playersData['rawData']['status']['startTime']).getTime() + playersData['rawData']['spec']['duration'] * 1000} />
-                    </p>
+                    </div>
                 }
             </div>
             <DrumPad

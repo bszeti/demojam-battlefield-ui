@@ -6,6 +6,7 @@ require k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
 
 require (
 	github.com/go-openapi/spec v0.0.0-20160808142527-6aced65f8501
+	github.com/gorilla/handlers v1.4.2
 	github.com/gorilla/mux v1.7.3
 	golang.org/x/crypto v0.0.0-20191002192127-34f69633bfdc // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect

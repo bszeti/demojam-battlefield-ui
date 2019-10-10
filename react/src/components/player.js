@@ -29,17 +29,11 @@ import {
 } from "reactstrap";
 import BASE_URL from '../constant';
 
-const nameList = [
-    'python', 'java', 'javascript', 'react'
-]
-
-
-const getImage = (name) => {
-    let index = 0;
-    try {
-        index = parseInt(name.replace(/[^\d.]/g, ''))
-    } catch (ee) { }
-    return nameList[index];
+const nameList = {
+    'go' : 'go.png',
+    'cheater' : 'cheater.jpeg',
+    'java' : 'java.png',
+    'quarkus' : 'quarkus.png',
 }
 
 const getProgressBarClassName = (value, maxHealth) => {
@@ -127,12 +121,12 @@ class Player extends React.Component {
                     // src={require("../assets/img/" + details.ready ? "ready.png" : "waiting.png")}
                     src={require(details.ready ? "../assets/img/ready.png" : "../assets/img/waiting.png")}
                 />
-                {/* {details.shield && <img
+                {details.shield && <img
                     title={'Shield'}
                     className="shield-sign"
                     alt="..."
                     src={require("../assets/img/shield.png")}
-                />} */}
+                />}
                 <Card className="card-user">
                     <CardBody>
                         <CardText />
@@ -145,7 +139,7 @@ class Player extends React.Component {
                                 <img
                                     alt="..."
                                     className="avatar"
-                                    src={require("../assets/img/icons/" + getImage(details.name) + ".svg")}
+                                    src={require("../assets/img/icons/" + nameList[details.type])}
                                 />
                                 <h5 className="title">{details.name}</h5>
                             </a>
@@ -158,7 +152,7 @@ class Player extends React.Component {
                         <div className={details.disqualified ? 'disqualified-text' : 'non-visible'}>
                             <p>Disqualified</p>
                         </div>
-                        <div className="button-container">
+                        <div className="button-container custom-card-user">
                             <Button className="btn-icon btn-round">
                                 <img
                                     title={'Kills'}
@@ -188,7 +182,7 @@ class Player extends React.Component {
                                 />
                             </Button>
                         </div>
-                        <div className="button-container">
+                        <div className="button-container custom-card-user">
                             <Button className="btn-icon btn-round">
                                 <span className="kill-stat">{details.kill}</span>
                             </Button>

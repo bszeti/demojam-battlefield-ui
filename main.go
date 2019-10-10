@@ -15,6 +15,8 @@ import (
 	// "io/ioutil"
 	"log"
 	"net/http"
+		"github.com/gorilla/handlers"
+
 
 	"github.com/gorilla/mux"
 	"k8s.io/client-go/kubernetes/scheme"
@@ -197,13 +199,13 @@ func main() {
 	
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/health", healthHandler)
-	router.HandleFunc("/api/battlefield/{name}", GetBattlefield).Methods("GET")
+	router.HandleFunc("/api/battlefield/{name}", GetBattlefield).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/battlefield/{name}", DeleteBattlefieldWithName).Methods("DELETE")
 	router.HandleFunc("/api/start/{name}/{type}", StartBattlefieldWithNameAndType).Methods("GET")
 	router.HandleFunc("/api/start/{name}", StartBattlefieldWithName).Methods("GET") //default-type
-	router.HandleFunc("/api/start", StartBattlefield).Methods("GET") //demofield - default type
-	router.HandleFunc("/api/battlefield/{name}/{player}/shield/{status}", ShieldHandler).Methods("GET")
-	router.HandleFunc("/api/battlefield/{name}/{player}/disqualified/{status}", DisqualifyHandler).Methods("GET")
+	router.HandleFunc("/api/start", StartBattlefield).Methods("GET", "OPTIONS") //demofield - default type
+	router.HandleFunc("/api/battlefield/{name}/{player}/shield/{status}", ShieldHandler).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/battlefield/{name}/{player}/disqualified/{status}", DisqualifyHandler).Methods("GET", "OPTIONS")
 
 
 	//Serve static filed at root from "static" directory
@@ -217,7 +219,7 @@ func main() {
 	// 	PathPrefix(staticDir).
 	// 	Handler(http.StripPrefix(staticDir, http.FileServer(http.Dir("."+staticDir))))
 
-	err = http.ListenAndServe(":8080", router)
+	err = http.ListenAndServe(":8080", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(router))
 	if err != nil {
 		log.Fatal("ListenAndServe Error: ", err)
 	}
