@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: main
-        image: quay.io/bszeti/battlefield-ui
+        image: quay.io/bszeti/battlefield-ui:latest
+        imagePullPolicy: Always
         env:
         - name: NAMESPACE
           value: visual

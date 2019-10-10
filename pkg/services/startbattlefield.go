@@ -1,31 +1,15 @@
 package services
 
 import (
-	// "flag"
-
-	//"encoding/json"
-	// "fmt"
-	// "os"
-	// "path/filepath"
-	// "strings"
 	"errors"
 
-	// "k8s.io/client-go/tools/clientcmd"
-	//clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 	"io/ioutil"
 	"log"
-	// "net/http"
-
-	// "github.com/gorilla/mux"
-	// "k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
-	// "k8s.io/apimachinery/pkg/runtime/serializer"
-	// metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/bszeti/battlefield-ui/pkg/apis/rhte/v1alpha1"
-
-	
 )
 
 

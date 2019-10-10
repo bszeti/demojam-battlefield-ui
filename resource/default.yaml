@@ -3,30 +3,30 @@ kind: Battlefield
 metadata:
   name: demofield
 spec:
-  duration: 480
+  duration: 420
   hitFrequency: 1
   players:
-  - name: GoodOldFuse
+  - name: DeFuseR
     image: quay.io/bszeti/battlefield-player-fuse:latest
-    maxhealth: 5
+    maxhealth: 10
     shield: false
     disqualified: false
     type: java
   - name: FunnyBoy
     image: quay.io/picochange/battlefield-player-quarkus-jvm:latest
-    maxhealth: 5
+    maxhealth: 10
     shield: false
     disqualified: false
     type: cheater
-  - name: SupersonicQuarkus
+  - name: Supersonic
     image: quay.io/picochange/battlefield-player-quarkus-native:latest
-    maxhealth: 5
+    maxhealth: 10
     shield: false
     disqualified: false
     type: quarkus
   - name: GoGoGo
     image: quay.io/bszeti/battlefield-player-golang:latest
-    maxhealth: 5
+    maxhealth: 10
     shield: false
     disqualified: false
     type: go
