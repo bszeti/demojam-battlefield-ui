@@ -119,7 +119,7 @@ function LiveScore(props) {
                 }
                 setPlayersData({'rawData': dataAsJson, 'data': _.values(merged)});
             });
-        }, 1500); // 1.5 second polling
+        }, 500); // 1.5 second polling
         if (isGameOver.current) {
             clearTimeout(timerToClearSomewhere.current);
         }

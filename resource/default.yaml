@@ -12,12 +12,6 @@ spec:
     shield: false
     disqualified: false
     type: java
-  - name: FunnyBoy
-    image: quay.io/picochange/battlefield-player-quarkus-jvm:latest
-    maxhealth: 10
-    shield: false
-    disqualified: false
-    type: cheater
   - name: Supersonic
     image: quay.io/picochange/battlefield-player-quarkus-native:latest
     maxhealth: 10
@@ -30,3 +24,9 @@ spec:
     shield: false
     disqualified: false
     type: go
+  - name: FunnyBoy
+    image: quay.io/picochange/battlefield-player-quarkus-jvm:latest
+    maxhealth: 10
+    shield: false
+    disqualified: false
+    type: cheater
