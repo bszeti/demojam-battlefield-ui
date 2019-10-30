@@ -4,7 +4,7 @@ metadata:
   name: demofield
 spec:
   duration: 420
-  hitFrequency: 1
+  hitFrequency: 2
   players:
   - name: DeFuseR
     image: quay.io/bszeti/battlefield-player-fuse:latest
