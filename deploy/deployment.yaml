@@ -20,6 +20,10 @@ spec:
         imagePullPolicy: Always
         env:
         - name: NAMESPACE
-          value: visual
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
         ports:
         - containerPort: 8080
+      serviceAccountName: battlefield-operator
