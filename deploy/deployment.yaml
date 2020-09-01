@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: battlefield-ui
+        maistra.io/expose-route: 'true'
     spec:
       containers:
       - name: main
